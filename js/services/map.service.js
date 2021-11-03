@@ -2,6 +2,7 @@ export const mapService = {
   initMap,
   addMarker,
   panTo,
+  goToUserLoc,
 };
 var gMap;
 
@@ -31,7 +32,7 @@ function panTo(lat, lng) {
   gMap.panTo(laLatLng);
 }
 
-function goToUserLocation(lat, lng) {
+function goToUserLoc(lat, lng) {
   panTo(lat, lng);
 }
 

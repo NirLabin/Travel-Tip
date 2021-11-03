@@ -6,7 +6,6 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
-window.onGoToUSerLocation = onGoToUserLocation;
 
 function onInit() {
   mapService
@@ -15,6 +14,8 @@ function onInit() {
       console.log('Map is ready');
     })
     .catch(() => console.log('Error: cannot init map'));
+
+  $('.btn-user-loc').click(onGoToUserLoc);
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -22,7 +23,6 @@ function getPosition() {
   console.log('Getting Pos');
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject);
-    console.log(resolve);
   });
 }
 
@@ -51,11 +51,10 @@ function onGetUserPos() {
     });
 }
 
-function onGoToUserLocation() {
+function onGoToUserLoc() {
   getPosition().then((pos) =>
-    console.log(pos.coords.latitude, pos.coords.longitude)
+    mapService.goToUserLoc(pos.coords.latitude, pos.coords.longitude)
   );
-  //   mapService.goToUserLocation();
 }
 
 function onPanTo() {
@@ -97,3 +96,4 @@ function renderLoc(loc) {
     </li>`;
   elLocList.insertAdjacentHTML('afterbegin', strHtml);
 }
+// NIR
