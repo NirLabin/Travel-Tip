@@ -27,15 +27,11 @@ function getPosition() {
 }
 
 function onAddMarker() {
-  console.log('Adding a marker');
   mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
 }
 
 function onGetLocs() {
-  locService.getLocs().then((locs) => {
-    // document.querySelector('.locs').innerText = JSON.stringify(locs);
-    renderLocs(locs);
-  });
+  locService.getLocs().then((locs) => renderLocs(locs));
 }
 
 function onGetUserPos() {
@@ -68,13 +64,17 @@ console.log(locService.getLocs);
 function onLocItem(e) {
   const curEl = e.target;
   if (!hasClass(curEl, 'btn')) return;
-
   const elLocItem = curEl.closest('.loc-item');
   const itemID = elLocItem.getAttribute('data-loc-id');
-  const loc = locService.findLocByID(itemID);
-
-  if (curEl.innerText === 'Delete') locService.deleteLoc(loc);
+  const loc = locService.findLocByID(+itemID);
+  if (curEl.innerText === 'Delete') onDeleteLoc(loc);
   else mapService.panTo(loc.lat, loc.lng);
+}
+
+// ON
+function onDeleteLoc(loc) {
+  locService.deleteLoc(loc);
+  onGetLocs();
 }
 
 // RENDER

@@ -13,6 +13,7 @@ const locs = [
 
 function deleteLoc(loc) {
 	locs.splice(locs.indexOf(loc), 1);
+	// _saveLocToStorage();
 }
 
 // GET
