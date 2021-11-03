@@ -10,13 +10,11 @@ export const mapService = {
 var gMap;
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
-  console.log('InitMap');
   return _connectGoogleApi().then(() => {
     gMap = new google.maps.Map(document.querySelector('#map'), {
       center: { lat, lng },
       zoom: 15,
     });
-    console.log('Map!', gMap);
 
     google.maps.event.addListener(gMap, 'click', function (e) {
       var latLng = e.latLng;
@@ -24,6 +22,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
       let lat = latLng.lat();
       let lng = latLng.lng();
       locService.addLoc({ lat, lng, name });
+      console.log(locService.getWeather(lat, lng));
     });
   });
 }

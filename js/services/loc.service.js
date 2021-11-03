@@ -5,6 +5,7 @@ export const locService = {
   findLocByID,
   addLoc,
 };
+
 let idCount = 0;
 let locs;
 (function () {
@@ -54,3 +55,11 @@ function findLocByID(id) {
 function _saveLocToStorage() {
   storageService.saveToStorage('locs', locs);
 }
+
+// function getWeather(lat, lng) {
+//   const WEATHER_KEY = '83c658cd64147041eec504f968405b88';
+
+//   return axios.get(
+//     `api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_KEY}`
+//   );
+// }
