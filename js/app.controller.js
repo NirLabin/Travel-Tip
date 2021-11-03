@@ -6,70 +6,80 @@ window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
+window.onGoToUSerLocation = onGoToUserLocation;
 
 function onInit() {
-	mapService
-		.initMap()
-		.then(() => {
-			console.log('Map is ready');
-		})
-		.catch(() => console.log('Error: cannot init map'));
+  mapService
+    .initMap()
+    .then(() => {
+      console.log('Map is ready');
+    })
+    .catch(() => console.log('Error: cannot init map'));
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
-	console.log('Getting Pos');
-	return new Promise((resolve, reject) => {
-		navigator.geolocation.getCurrentPosition(resolve, reject);
-	});
+  console.log('Getting Pos');
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+    console.log(resolve);
+  });
 }
 
 function onAddMarker() {
-	console.log('Adding a marker');
-	mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
+  console.log('Adding a marker');
+  mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 });
 }
 
 function onGetLocs() {
-	locService.getLocs().then((locs) => {
-		// document.querySelector('.locs').innerText = JSON.stringify(locs);
-		renderLocs(locs);
-	});
+  locService.getLocs().then((locs) => {
+    // document.querySelector('.locs').innerText = JSON.stringify(locs);
+    renderLocs(locs);
+  });
 }
 
 function onGetUserPos() {
-	getPosition()
-		.then((pos) => {
-			console.log('User position is:', pos.coords);
-			document.querySelector(
-				'.user-pos'
-			).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`;
-		})
-		.catch((err) => {
-			console.log('err!!!', err);
-		});
+  getPosition()
+    .then((pos) => {
+      console.log('User position is:', pos.coords);
+      document.querySelector(
+        '.user-pos'
+      ).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`;
+    })
+    .catch((err) => {
+      console.log('err!!!', err);
+    });
 }
+
+function onGoToUserLocation() {
+  getPosition().then((pos) =>
+    console.log(pos.coords.latitude, pos.coords.longitude)
+  );
+  //   mapService.goToUserLocation();
+}
+
 function onPanTo() {
-	console.log('Panning the Map');
-	mapService.panTo(35.6895, 139.6917);
+  console.log('Panning the Map');
+  mapService.panTo(35.6895, 139.6917);
 }
 console.log(locService.getLocs);
 
 // //////////////////////////
 
 function onLocItem(e) {
-	const curEl = e.target;
-	if (!hasClass(curEl, 'btn')) return;
+  const curEl = e.target;
+  if (!hasClass(curEl, 'btn')) return;
 }
 
 // RENDER
 function renderLocs(locs) {
-	locs.forEach((loc) => renderLoc(loc));
-	$('.loc-item').click(onLocItem);
+  locs.forEach((loc) => renderLoc(loc));
+  $('.loc-item').click(onLocItem);
 }
 
 function renderLoc(loc) {
-	const elLocList = document.querySelector('.locs-list');
-	const strHtml = `
+  const elLocList = document.querySelector('.locs-list');
+  const strHtml = `
     <li class="loc-item">
         <span class="loc-name">${loc.name}</span>
         <span class="loc-cords">Latitude: ${loc.lat} - Longitude: ${loc.lng}</span>
@@ -78,5 +88,5 @@ function renderLoc(loc) {
             <button class="btn btn-delete">Delete</button>
         </div>
     </li>`;
-	elLocList.insertAdjacentHTML('afterbegin', strHtml);
+  elLocList.insertAdjacentHTML('afterbegin', strHtml);
 }
