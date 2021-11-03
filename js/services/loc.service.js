@@ -1,5 +1,7 @@
 export const locService = {
 	getLocs,
+	deleteLoc,
+	findLocByID,
 };
 let idCount = 0;
 const locs = [
@@ -9,7 +11,9 @@ const locs = [
 
 //
 
-function deleteLoc(id) {}
+function deleteLoc(loc) {
+	locs.splice(locs.indexOf(loc), 1);
+}
 
 // GET
 

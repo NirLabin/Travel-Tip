@@ -69,6 +69,13 @@ console.log(locService.getLocs);
 function onLocItem(e) {
   const curEl = e.target;
   if (!hasClass(curEl, 'btn')) return;
+
+  const elLocItem = curEl.closest('.loc-item');
+  const itemID = elLocItem.getAttribute('data-loc-id');
+  const loc = locService.findLocByID(itemID);
+
+  if (curEl.innerText === 'Delete') locService.deleteLoc(loc);
+  else mapService.panTo(loc.lat, loc.lng);
 }
 
 // RENDER
@@ -80,7 +87,7 @@ function renderLocs(locs) {
 function renderLoc(loc) {
   const elLocList = document.querySelector('.locs-list');
   const strHtml = `
-    <li class="loc-item">
+    <li class="loc-item" data-loc-id="${loc.id}">
         <span class="loc-name">${loc.name}</span>
         <span class="loc-cords">Latitude: ${loc.lat} - Longitude: ${loc.lng}</span>
         <div class="btns-box">
