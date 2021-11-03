@@ -16,6 +16,8 @@ function onInit() {
 
   $('.btn-user-loc').click(onGoToUserLoc);
   $('.btn-copy-link').click(onCopyLoc);
+  $('.input-search').on('input', onSearchInput);
+  $('.btn-search').click(onSearch);
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -64,9 +66,20 @@ function onPanTo() {
   console.log('Panning the Map');
   mapService.panTo(35.6895, 139.6917);
 }
-console.log(locService.getLocs);
 
 // //////////////////////////
+function onSearchInput(e) {
+  console.log(e);
+}
+function onSearch() {
+  const loc = $('.input-search').val();
+  geolocation(loc).then((res) => {
+    const { results } = res;
+    const { lat, lng } = results[0].geometry.location;
+    mapService.panTo(lat, lng);
+    locService.addLoc({ lat, lng });
+  });
+}
 
 function onLocItem(e) {
   const curEl = e.target;
