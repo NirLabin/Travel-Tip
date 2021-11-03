@@ -1,4 +1,8 @@
 'use strict';
+export const storageService = {
+	loadFromStorage,
+	saveToStorage,
+};
 function loadFromStorage(key) {
 	const json = localStorage.getItem(key);
 	const val = JSON.parse(json);

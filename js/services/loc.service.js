@@ -1,19 +1,34 @@
+import { storageService } from './storage.service.js';
 export const locService = {
 	getLocs,
 	deleteLoc,
 	findLocByID,
+	addLoc,
 };
 let idCount = 0;
-const locs = [
-	_createLoc({ name: 'Greatplace', lat: 32.047104, lng: 34.832384 }),
-	_createLoc({ name: 'Neveragain', lat: 32.047201, lng: 34.832581 }),
-];
+let locs;
+(function () {
+	let tempLoc = storageService.loadFromStorage('locs');
+	if (!tempLoc || !tempLoc.length) {
+		tempLoc = [
+			_createLoc({ name: 'Greatplace', lat: 32.047104, lng: 34.832384 }),
+			_createLoc({ name: 'Neveragain', lat: 32.047201, lng: 34.832581 }),
+		];
+	}
+	locs = tempLoc;
+	_saveLocToStorage();
+})();
+
+function addLoc({ lat, lng, name = '' }) {
+	locs.push(_createLoc({ lat, lng, name }));
+	_saveLocToStorage();
+}
 
 //
 
 function deleteLoc(loc) {
 	locs.splice(locs.indexOf(loc), 1);
-	// _saveLocToStorage();
+	_saveLocToStorage();
 }
 
 // GET
@@ -41,5 +56,5 @@ function findLocByID(id) {
 // Local STORAGE
 
 function _saveLocToStorage() {
-	saveToStorage('locs', locs);
+	storageService.saveToStorage('locs', locs);
 }
