@@ -7,10 +7,24 @@
 	gap: 20px;
 }
 
+.loc-details-container {
+	flex-basis: 50%;
+}
+.locs-list {
+	height: 100%;
+	gap: 20px;
+	overflow-x: scroll;
+	font-size: 16px;
+}
+
 .map-container {
+	flex-basis: 50%;
 	gap: 20px;
 }
 
 .map-btns {
 	gap: 20px;
+}
+.loc-item {
+	gap: 10px;
 }

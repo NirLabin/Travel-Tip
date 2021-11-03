@@ -3,15 +3,23 @@ import { mapService } from './services/map.service.js';
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
-window.onGetLocs = onGetLocs;
-window.onGetUserPos = onGetUserPos;
 
 function onInit() {
 	mapService
 		.initMap()
-		.then(() => console.log('Map is ready'))
+		.then(() => {
+			const map = mapService.getMap();
+			google.maps.event.addListener(map, 'click', function (e) {
+				const latLng = e.latLng;
+				const name = prompt('Enter the place name');
+				if (!name) return;
+				const [lat, lng] = [latLng.lat(), latLng.lng()];
+				locService.addLoc({ lat, lng, name });
+				onGetLocs();
+			});
+		})
 		.catch(() => console.log('Error: cannot init map'));
-
+	onGetUserPos();
 	onGetLocs();
 	$('.btn-user-loc').click(onGoToUserLoc);
 	$('.btn-copy-link').click(onCopyLink);
@@ -30,15 +38,21 @@ function onAddMarker() {
 }
 
 function onGetLocs() {
-	locService.getLocs().then((locs) => renderLocs(locs));
+	renderLocs(locService.getLocs());
 }
 
 function onGetUserPos() {
 	getPosition()
 		.then((pos) => {
-			document.querySelector(
-				'.user-pos'
-			).innerText = `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`;
+			const API_KEY = 'AIzaSyAgJS7jQeAOvo8loGt_gEvBHhvclV671rU';
+			const { latitude, longitude } = pos.coords;
+			getJSON(
+				`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${API_KEY}`
+			).then((res) => {
+				const address = res.results[0].formatted_address;
+				$('.user-pos').text(`${address}`);
+			});
+			//  $('.user-pos').text(`Latitude: ${latitude} - Longitude: ${longitude}`);
 		})
 		.catch((err) => console.log('err!!!', err));
 }
@@ -90,8 +104,10 @@ function onDeleteLoc(loc) {
 	onGetLocs();
 }
 
-// RENDER
+////////////////////////////////// RENDER ///////////////////
 function renderLocs(locs) {
+	// Clearing the list
+	$('.locs-list').html('');
 	locs.forEach((loc) => renderLoc(loc));
 	$('.loc-item').click(onLocItem);
 }
@@ -99,7 +115,7 @@ function renderLocs(locs) {
 function renderLoc(loc) {
 	const elLocList = document.querySelector('.locs-list');
 	const strHtml = `
-    <li class="loc-item" data-loc-id="${loc.id}">
+    <li class="loc-item flex column" data-loc-id="${loc.id}">
         <span class="loc-name">${loc.name}</span>
         <span class="loc-cords">Latitude: ${loc.lat} - Longitude: ${loc.lng}</span>
         <div class="btns-box">
