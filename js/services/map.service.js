@@ -4,6 +4,7 @@ export const mapService = {
   panTo,
   goToUserLoc,
 };
+
 var gMap;
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
@@ -15,16 +16,12 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
     });
     console.log('Map!', gMap);
 
-    // google.maps.event.addListener(map, 'click', function (e) {
-    // 	// const locationName = prompt('Name of the location');
-    // 	const elLocationName = document.querySelector('.location-name');
-    // 	const locationName = elLocationName.value;
-    // 	// Clearing the input
-    // 	elLocationName.value = '';
-    // 	if (!locationName) return;
-    // 	if (addLocation({ name: locationName, coords: e.latLng }))
-    // 		renderLocations();
-    // });
+    google.maps.event.addListener(gMap, 'click', function (e) {
+      var latLng = e.latLng;
+      let lat = latLng.lat();
+      let lng = latLng.lng();
+      console.log(lat, lng);
+    });
   });
 }
 

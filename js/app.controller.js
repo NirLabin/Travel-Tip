@@ -1,6 +1,5 @@
 import { locService } from './services/loc.service.js';
 import { mapService } from './services/map.service.js';
-
 window.onload = onInit;
 window.onAddMarker = onAddMarker;
 window.onPanTo = onPanTo;
@@ -16,6 +15,7 @@ function onInit() {
     .catch(() => console.log('Error: cannot init map'));
 
   $('.btn-user-loc').click(onGoToUserLoc);
+  $('.btn-copy-link').click(onCopyLoc);
 }
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
@@ -51,6 +51,13 @@ function onGoToUserLoc() {
   getPosition().then((pos) =>
     mapService.goToUserLoc(pos.coords.latitude, pos.coords.longitude)
   );
+}
+
+function onCopyLoc() {
+  getPosition().then((pos) => {
+    const link = `https://nirlabin.github.io/Travel-Tip/index.html?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`;
+    navigator.clipboard.writeText(link);
+  });
 }
 
 function onPanTo() {
