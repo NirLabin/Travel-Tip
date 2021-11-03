@@ -1,11 +1,15 @@
 export const locService = {
 	getLocs,
 };
-
+let idCount = 0;
 const locs = [
-	{ name: 'Greatplace', lat: 32.047104, lng: 34.832384 },
-	{ name: 'Neveragain', lat: 32.047201, lng: 34.832581 },
+	_createLoc({ name: 'Greatplace', lat: 32.047104, lng: 34.832384 }),
+	_createLoc({ name: 'Neveragain', lat: 32.047201, lng: 34.832581 }),
 ];
+
+//
+
+function deleteLoc(id) {}
 
 // GET
 
@@ -19,8 +23,14 @@ function getLocs() {
 
 // CREATE
 
-function _createLoc({ id, name, lat, lng, createdAt, updatedAt }) {
-	return { id, name, lat, lng, createdAt, updatedAt };
+function _createLoc({ name, lat, lng, createdAt = '', updatedAt = '' }) {
+	return { id: idCount++, name, lat, lng, createdAt, updatedAt };
+}
+
+// Find location by id
+
+function findLocByID(id) {
+	return locs.find((loc) => loc.id === id);
 }
 
 // Local STORAGE
