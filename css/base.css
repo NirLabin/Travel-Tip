@@ -1,6 +1,7 @@
 :root {
 	--txt-clr: #425466;
 	--clr-background: #f7f9fc;
+	--btn-background-clr: #425466;
 }
 
 * {
@@ -18,4 +19,11 @@ body {
 
 a {
 	text-decoration: none;
+}
+
+.btn:active {
+	transform: scale(0.8);
+}
+.btn:hover {
+	background-color: #4a5662;
 }

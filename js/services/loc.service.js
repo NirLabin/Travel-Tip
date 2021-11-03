@@ -24,14 +24,10 @@ function addLoc({ lat, lng, name }) {
   _saveLocToStorage();
 }
 
-//
-
 function deleteLoc(loc) {
   locs.splice(locs.indexOf(loc), 1);
   _saveLocToStorage();
 }
-
-// GET
 
 function getLocs() {
   return new Promise((resolve, reject) => {
