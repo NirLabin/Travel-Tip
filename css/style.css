@@ -1,0 +1,16 @@
+.main-header {
+	padding: 10px;
+	margin-bottom: 30px;
+}
+
+.main-content {
+	gap: 20px;
+}
+
+.map-container {
+	gap: 20px;
+}
+
+.map-btns {
+	gap: 20px;
+}
