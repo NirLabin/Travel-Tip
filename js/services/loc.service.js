@@ -1,12 +1,11 @@
 import { storageService } from './storage.service.js';
+import { utilService } from './util.service.js';
 export const locService = {
 	getLocs,
 	deleteLoc,
 	findLocByID,
 	addLoc,
 };
-
-let idCount = 0;
 let locs;
 (function () {
 	let tempLoc = storageService.loadFromStorage('locs');
@@ -21,12 +20,13 @@ let locs;
 })();
 
 function addLoc({ lat, lng, name }) {
-	locs.push(_createLoc({ lat, lng, name }));
+	locs.push(_createLoc({ lat, lng, name, createdAt: new Date() }));
 	_saveLocToStorage();
 }
 
 function deleteLoc(loc) {
 	locs.splice(locs.indexOf(loc), 1);
+	console.log(locs);
 	_saveLocToStorage();
 }
 
@@ -37,7 +37,7 @@ function getLocs() {
 // CREATE
 
 function _createLoc({ name, lat, lng, createdAt = '', updatedAt = '' }) {
-	return { id: idCount++, name, lat, lng, createdAt, updatedAt };
+	return { id: utilService.makeId(4), name, lat, lng, createdAt, updatedAt };
 }
 
 // Find location by id
@@ -51,11 +51,3 @@ function findLocByID(id) {
 function _saveLocToStorage() {
 	storageService.saveToStorage('locs', locs);
 }
-
-// function getWeather(lat, lng) {
-//   const WEATHER_KEY = '83c658cd64147041eec504f968405b88';
-
-//   return axios.get(
-//     `api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${WEATHER_KEY}`
-//   );
-// }

@@ -30,6 +30,9 @@
   font-size: 1.2em;
   font-weight: bolder;
 }
+.locs-list > * {
+	transition: all 1s ease;
+}
 
 .map-container {
   flex-basis: 50%;
