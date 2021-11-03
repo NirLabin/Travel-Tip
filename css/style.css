@@ -16,6 +16,9 @@
 	overflow-x: scroll;
 	font-size: 16px;
 }
+.locs-list > * {
+	transition: all 1s ease;
+}
 
 .map-container {
 	flex-basis: 50%;

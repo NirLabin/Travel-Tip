@@ -59,3 +59,8 @@
 	/* margin-left: 20px; */
 	/* margin-right: 20px; */
 }
+
+.fall {
+	transform: translateY(8rem) rotateZ(20deg);
+	opacity: 0;
+}
