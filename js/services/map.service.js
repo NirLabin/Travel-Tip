@@ -1,3 +1,5 @@
+import { locService } from './loc.service.js';
+
 export const mapService = {
   initMap,
   addMarker,
@@ -18,9 +20,10 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
     google.maps.event.addListener(gMap, 'click', function (e) {
       var latLng = e.latLng;
+      var name = prompt('Enter the place name');
       let lat = latLng.lat();
       let lng = latLng.lng();
-      console.log(lat, lng);
+      locService.addLoc({ lat, lng, name });
     });
   });
 }
